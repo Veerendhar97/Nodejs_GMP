@@ -1,0 +1,19 @@
+{
+  "name": "node_mentoring_program",
+  "version": "1.0.0",
+  "description": "Contains homework tasks of Global Nodejs Mentoring Program",
+  "main": "index.js",
+  "dependencies": {
+    "csvtojson": "^2.0.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.epam.com:veerendhar_arepally/node_mentoring_program.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

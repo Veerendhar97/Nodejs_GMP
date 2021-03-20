@@ -1,0 +1,9 @@
+{"policyID":"119736","statecode":"FL","county":"CLAY COUNTY","eq_site_limit":"498960","hu_site_limit":"498960","fl_site_limit":"498960"}
+{"policyID":"448094","statecode":"FL","county":"CLAY COUNTY","eq_site_limit":"1322376.3","hu_site_limit":"1322376.3","fl_site_limit":"1322376.3"}
+{"policyID":"206893","statecode":"FL","county":"CLAY COUNTY","eq_site_limit":"190724.4","hu_site_limit":"190724.4","fl_site_limit":"190724.4","field7":""}
+{"policyID":"333743","statecode":"FL","county":"CLAY COUNTY","eq_site_limit":"0","hu_site_limit":"79520.76","fl_site_limit":"0"}
+{"policyID":"172534","statecode":"FL","county":"CLAY COUNTY","eq_site_limit":"0","hu_site_limit":"254281.5","fl_site_limit":"0"}
+{"policyID":"785275","statecode":"FL","county":"CLAY COUNTY","eq_site_limit":"0","hu_site_limit":"515035.62","fl_site_limit":"0"}
+{"policyID":"995932","statecode":"FL","county":"CLAY COUNTY","eq_site_limit":"0","hu_site_limit":"19260000","fl_site_limit":""}
+{"policyID":"223488","statecode":"FL","county":"CLAY COUNTY","eq_site_limit":"328500","hu_site_limit":"328500","fl_site_limit":"328500"}
+{"policyID":"433512","statecode":"FL","county":"CLAY COUNTY","eq_site_limit":"315000","hu_site_limit":"315000","fl_site_limit":""}

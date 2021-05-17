@@ -2,7 +2,7 @@ const Joi = require('joi')
 const userSchema = Joi.object().keys({
   login: Joi.string().required(),
   password: Joi.string().alphanum().required(),
-  age: Joi.number().min(4).max(130).required()
+  age: Joi.number().min(4).max(100).required()
 })
 const validator = (req) => {
   const { error } = userSchema.validate(req);

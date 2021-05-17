@@ -1,6 +1,12 @@
 const http = require('http');
 const express = require('express');
-const user = require('./routes');
+const dotenv = require('dotenv')
+dotenv.config();
+
+
+
+const user = require('./controllers/routes');
+
 const app = express();
 
 app.use(express.json());
@@ -9,13 +15,15 @@ app.use(express.urlencoded({
 }));
 
 app.use('/user',user)
+
 app.use('/', (req, res) => {
     res.status(200).send('Server Works');
 });
 
 const server = http.createServer(app);
-const port = 3000;
+const port = process.env.SERVER_PORT || 3001;
 server.listen(port);
 
-console.debug(`Listen on port ${port}`  );
+console.log('Port',process.env.SERVER_PORT)
 
+console.debug(`Server listening on port ${port}`);

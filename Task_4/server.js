@@ -9,6 +9,10 @@ const user = require('./controllers/routes');
 
 const app = express();
 
+
+
+// parse application/json
+
 app.use(express.json());
 app.use(express.urlencoded({
     extended:true
@@ -21,7 +25,7 @@ app.use('/', (req, res) => {
 });
 
 const server = http.createServer(app);
-const port = process.env.SERVER_PORT || 3001;
+const port = process.env.SERVER_PORT || 3002;
 server.listen(port);
 
 console.log('Port',process.env.SERVER_PORT)

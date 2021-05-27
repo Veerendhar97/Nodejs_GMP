@@ -1,31 +1,31 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
-const validator = require('../utils');
+const { validator } = require('../utils');
 const User = require('../models/User');
 const { getAllUsers,getUserById, createUser,updateUser, deleteUser,getAutoSuggestUsers } = require('../services/UserService');
 
 let userData = [
-    { id: uuidv4(), login: 'Work', password: 'abc', isDeleted: false, age: 27 },
-    { id: uuidv4(), login: 'Eat', password: 'def', isDeleted: false, age: 27 },
-    { id: uuidv4(), login: 'Read', password: 'ghi', isDeleted: false, age: 27 },
-    { id: uuidv4(), login: 'Sleep', password: 'jkl', isDeleted: false, age: 27 },
-    { id: uuidv4(), login: 'Rest', password: 'mno', isDeleted: false, age: 27 },
+    { id: uuidv4(), login: 'Create a project', password: 'password1', isDeleted: false, age: 25 },
+    { id: uuidv4(), login: 'Take a cofféé', password: 'password2', isDeleted: false, age: 25 },
+    { id: uuidv4(), login: 'Write new article', password: 'password3', isDeleted: false, age: 25 },
+    { id: uuidv4(), login: 'Walk toward home', password: 'password4', isDeleted: false, age: 25 },
+    { id: uuidv4(), login: 'Have some dinner', password: 'password5', isDeleted: false, age: 25 },
 ];
 
 const router = express.Router();
 
 router.get('/', async(req, res) => {
     const users = await getAllUsers();
-   await  res.status(200).json(users)
+    return res.status(200).json(users)
 })
 
 router.get('/getUserById/:id', async(req, res) => {
     try {
     let found =await getUserById(req.params.id)
     if (found) {
-       await res.status(200).json(found);
+       return res.status(200).json(found);
     } else {
-       await res.status(200).sendStatus(404)
+       return res.status(200).sendStatus(404)
     }
 } catch(e) {
     console.log(e.message)
@@ -37,11 +37,11 @@ router.post('/createUser', async(req, res) => {
     const { isValid, message } = validator(req.body)
     const {login,password,age} = req.body;
     if (isValid) {
-         await createUser(login,password,age)
+         await createUser(login,password,age) 
         const users = await getAllUsers()
-        await res.status(201).json(users);
+        return res.status(201).json(users);
     } else {
-        res.status(400).json(message)
+        return res.status(400).json(message)
     }
     } catch(e) {
         console.log(e.message)
@@ -65,9 +65,9 @@ router.put('/updateUser/:id', async(req, res) => {
         if (found) {
             await updateUser(login,password,age,+id)
             const updatedUser = await getUserById(id)
-            await res.status(200).send(updatedUser);
+            return res.status(200).send(updatedUser);
         } else {
-            await res.sendStatus(404);
+            return res.sendStatus(404);
         }
     } else {
         res.status(400).json(message)
@@ -82,9 +82,9 @@ router.delete('/deleteUser/:id',async (req, res) => {
     let found =  await getUserById(id)
     if (found !== null) {
         await deleteUser(id)
-        await res.sendStatus(200)
+        return res.sendStatus(200)
     } else {
-        await res.sendStatus(404)
+        return res.sendStatus(404)
     }
 });
 

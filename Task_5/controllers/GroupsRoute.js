@@ -1,80 +1,100 @@
+  
 const express = require('express');
+const bunyan = require('bunyan');
 const { permissionValidator } = require('../utils');
-const { getAllGroups,getGroupById, createGroup, updateGroup, deleteGroup, addUsersToGroup } = require('../services/GroupService');
+const AppError = require('../error');
+const log = bunyan.createLogger({name: 'myapp'});
+const { getAllGroups,getGroupById, createGroup, updateGroup, deleteGroup, addUsersToGroup } = require('../services/GroupServices');
 
 const router = express.Router();
 
 router.get('/', async(req, res) => {
     const groups = await getAllGroups();
-    return  res.status(200).json(groups)
+    log.info('get all the  groups!');
+    return res.status(200).json(groups)
 })
 
 router.get('/:id',async(req,res)=>{
     const { id } = req.params;
+    log.info('query params', id);
     const group = await getGroupById(id)
     if(group) {
+        log.info('get the group by ID!');
         return res.status(200).json(group)
     } else {
-        return res.statusCode(404)
+        log.info('user not found!');
+        throw new AppError('User not found!', 404)
     }
 })
 
 router.post('/createGroup',async(req,res)=>{
     const { permissions,name } = req.body;
+    log.info('body', permissions, name);
     const { isValid, message } = permissionValidator(permissions);
     try{
         if(isValid) {
             await createGroup({name,permissions});
+            log.info('group created successfully!');
             return res.send(201)
         } else {
-            return res.status(400).json(message)
+            throw new AppError(message, 400)
         }
     } catch(e) {
-        return res.send(502).json(e)
+        throw new AppError(e.message, 502)
     }
 })
 
 router.put('/updateGroup/:id',async(req,res)=>{
     const { id } = req.params;
+    log.info('query params', id);
     const { permissions,name } = req.body;
+    log.info('body', permissions, name);
     const { isValid, message } = permissionValidator(permissions);
     try{
         if(isValid) {
             await updateGroup({id,name,permissions});
-            return res.status(200).send(`Group with ${id} updated successfully`)
+            log.info('updated group info successfully!');
+            return res.status(200).send(`Group with  the ${id} updated successfully`)
         } else {
-            return res.status(400).json(message)
+            throw new AppError(message, 400)
         }
     } catch(e) {
-        return res.send(502).json(e)
+        throw new AppError(e.message, 502)
     }
 })
 
 router.delete('/deleteGroup/:id',async(req,res)=>{
     const { id } = req.params;
+    log.info('query params',id)
     try{
         await deleteGroup(id)
-        return res.status(200).send(`Group with ${id} deleted Successfully`)
+        log.info('deleted the group from DB successfully!');
+        return res.status(200).send(`Group with  the ${id} deleted Successfully`)
     } catch(e) {
-        return res.send(502).json(e)
+        throw new AppError(e.message, 502)
     }
 })
 
 router.post('/addUsersToGroup/:groupId',async(req,res)=>{
     const { groupId  } = req.params;
     const { userIds } = req.body;
+    log.info('query params groupId', groupId);
+    log.info('body', userIds);
     try {
-        if(userIds.length === 0) return res.send(400).json('Empty Users List')
+        if(userIds.length === 0){
+            throw new AppError('Empty Users List!', 400)
+        }
         const group = await getGroupById(groupId);
         if(group) {
+            log.info('user is added to group successfully!');
             await addUsersToGroup({userIds,GroupID:groupId })
             return res.sendStatus(200)
         } else {
-            return res.sendStatus(502)
+            throw new AppError('group not found!',404);
         }
     } catch(e) {
-        console.log(e)
-        return res.sendStatus(502)
+        log.info('error', e);
+        throw new AppError(e.message, 502)
     }
 })
 

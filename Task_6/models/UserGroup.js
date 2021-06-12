@@ -1,5 +1,4 @@
 const { connection } = require('../data-access/connection');
-const { DataTypes } = require('sequelize');
 const User = require('./User');
 const Group = require('./Group');
 

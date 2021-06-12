@@ -1,4 +1,3 @@
-  
 const express = require('express');
 const bunyan = require('bunyan');
 const { permissionValidator } = require('../utils');
@@ -10,7 +9,7 @@ const router = express.Router();
 
 router.get('/', async(req, res) => {
     const groups = await getAllGroups();
-    log.info('get all the  groups!');
+    log.info('get complete group!');
     return res.status(200).json(groups)
 })
 
@@ -19,7 +18,7 @@ router.get('/:id',async(req,res)=>{
     log.info('query params', id);
     const group = await getGroupById(id)
     if(group) {
-        log.info('get the group by ID!');
+        log.info('get group by ID!');
         return res.status(200).json(group)
     } else {
         log.info('user not found!');
@@ -54,7 +53,7 @@ router.put('/updateGroup/:id',async(req,res)=>{
         if(isValid) {
             await updateGroup({id,name,permissions});
             log.info('updated group info successfully!');
-            return res.status(200).send(`Group with  the ${id} updated successfully`)
+            return res.status(200).send(`Group with ${id} updated successfully`)
         } else {
             throw new AppError(message, 400)
         }
@@ -68,8 +67,8 @@ router.delete('/deleteGroup/:id',async(req,res)=>{
     log.info('query params',id)
     try{
         await deleteGroup(id)
-        log.info('deleted the group from DB successfully!');
-        return res.status(200).send(`Group with  the ${id} deleted Successfully`)
+        log.info('deleted group in DB successfully!');
+        return res.status(200).send(`Group with ${id} deleted Successfully`)
     } catch(e) {
         throw new AppError(e.message, 502)
     }
@@ -86,7 +85,7 @@ router.post('/addUsersToGroup/:groupId',async(req,res)=>{
         }
         const group = await getGroupById(groupId);
         if(group) {
-            log.info('user is added to group successfully!');
+            log.info('user added to the group successfully!');
             await addUsersToGroup({userIds,GroupID:groupId })
             return res.sendStatus(200)
         } else {
